@@ -250,27 +250,27 @@ export default function FormulariosRecibidosPage() {
               </div>
 
               {/* Tabla HTML clásica */}
-              <div className="overflow-x-auto">
-                <div className="bg-[var(--background)] rounded-lg card-shadow overflow-hidden">
-                  <table className="w-full">
+              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                <div className="bg-[var(--background)] rounded-lg card-shadow overflow-hidden min-w-[720px]">
+                  <table className="w-full min-w-[720px]">
                     <thead>
                       <tr className="bg-[var(--content-bg)] border-b border-[var(--border-color)]">
-                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)] w-20 whitespace-nowrap">
                           Tipo
                         </th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)] w-40 whitespace-nowrap">
                           Nombre
                         </th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)] w-24 whitespace-nowrap">
                           Documento
                         </th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)] w-32 whitespace-nowrap">
                           Monto
                         </th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-left text-xs font-semibold text-[var(--text-primary)] w-24 whitespace-nowrap">
                           Fecha
                         </th>
-                        <th className="px-3 py-2 text-center text-xs font-semibold text-[var(--text-primary)]">
+                        <th className="px-3 py-2 text-center text-xs font-semibold text-[var(--text-primary)] w-20 whitespace-nowrap">
                           Acciones
                         </th>
                       </tr>
@@ -278,7 +278,7 @@ export default function FormulariosRecibidosPage() {
                     <tbody>
                       {notas.map((nota, index) => (
                         <tr key={nota._id} className="border-b border-[var(--border-color)] hover:bg-[var(--content-bg)] transition-colors">
-                          <td className="px-3 py-2">
+                          <td className="px-3 py-2 w-20">
                             <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
                               nota.tipo === 'JURIDICA'
                                 ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
@@ -287,24 +287,26 @@ export default function FormulariosRecibidosPage() {
                               {nota.tipo === 'JURIDICA' ? 'Factura' : 'Boleta'}
                             </span>
                           </td>
-                          <td className="px-3 py-2 text-xs text-[var(--text-primary)] font-medium">
-                            {nota.nombre_completo}
+                          <td className="px-3 py-2 text-xs text-[var(--text-primary)] font-medium w-40">
+                            <div className="truncate max-w-[160px]" title={nota.nombre_completo}>
+                              {nota.nombre_completo}
+                            </div>
                           </td>
-                          <td className="px-3 py-2 text-xs text-[var(--text-secondary)]">
+                          <td className="px-3 py-2 text-xs text-[var(--text-secondary)] w-24">
                             {nota.tipo === 'JURIDICA' ? (nota.ruc || 'N/A') : (nota.dni || 'N/A')}
                           </td>
-                          <td className="px-3 py-2 text-xs text-[var(--text-primary)] font-medium">
+                          <td className="px-3 py-2 text-xs text-[var(--text-primary)] font-medium w-32">
                             <div>S/ {nota.monto_pagar.toFixed(2)}</div>
                             {nota.monto_letras && (
-                              <div className="text-xs text-[var(--text-secondary)] mt-1 italic">
+                              <div className="text-xs text-[var(--text-secondary)] mt-1 italic truncate max-w-[120px]" title={nota.monto_letras}>
                                 {nota.monto_letras}
                               </div>
                             )}
                           </td>
-                          <td className="px-3 py-2 text-xs text-[var(--text-secondary)]">
+                          <td className="px-3 py-2 text-xs text-[var(--text-secondary)] w-24">
                             {formatDate(nota.createdAt)}
                           </td>
-                          <td className="px-3 py-2 text-center">
+                          <td className="px-3 py-2 text-center w-20">
                             <div className="flex items-center justify-center gap-1">
                               <Button
                                 variant="ghost"

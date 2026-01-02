@@ -165,10 +165,48 @@ export default function FormConfiguracionPage() {
             <Button
               type="button"
               variant="secondary"
-              onClick={() => router.push('/nota-credito')}
+              onClick={async () => {
+                // Guardar configuración automáticamente antes de ir al formulario
+                setIsSaving(true);
+                try {
+                  const method = config._id ? 'PUT' : 'POST';
+                  const response = await fetch('/api/form-configuracion', {
+                    method,
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      dependencia_solicitante: config.dependencia_solicitante,
+                      persona_contacto: config.persona_contacto,
+                      anexo: config.anexo,
+                    }),
+                  });
+
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Error al guardar la configuración');
+                  }
+
+                  const savedConfig = await response.json();
+                  setConfig(savedConfig);
+                  toast.success('Configuración guardada, redirigiendo al formulario...');
+
+                  // Redirigir al formulario después de guardar
+                  setTimeout(() => {
+                    router.push('/nota-credito');
+                  }, 1000);
+
+                } catch (error) {
+                  console.error('Error guardando configuración:', error);
+                  toast.error(error instanceof Error ? error.message : 'Error al guardar la configuración');
+                } finally {
+                  setIsSaving(false);
+                }
+              }}
+              disabled={isSaving}
               className="px-6"
             >
-              IR AL FORMULARIO
+              {isSaving ? 'Guardando...' : 'IR AL FORMULARIO'}
             </Button>
             <Button
               type="submit"
