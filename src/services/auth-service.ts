@@ -18,8 +18,44 @@ export interface RefreshTokenResponse {
   refreshToken: string;
 }
 
+export interface RegisterResponse {
+  message: string;
+  usuario: {
+    id: string;
+    nombres: string;
+    usuario: string;
+    email: string;
+    role: string;
+  };
+}
+
 class AuthService {
   private refreshPromise: Promise<string | null> | null = null;
+
+  /**
+   * Registra un nuevo usuario
+   */
+  async register(nombres: string, usuario: string, email: string, contrasenna: string): Promise<RegisterResponse> {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombres, usuario, email, contrasenna }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error en el registro');
+      }
+
+      const registerData: RegisterResponse = await response.json();
+      return registerData;
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : 'Error en el registro');
+    }
+  }
 
   /**
    * Inicia sesión con usuario y contraseña
