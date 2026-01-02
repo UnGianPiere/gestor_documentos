@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderBottom: '1px solid #e5e7eb',
   },
   logoCell: {
-    width: '25%', // w-32 aproximado
+    width: '25%', // Logo: 25%
     textAlign: 'center',
     padding: 16, // p-4
     borderRight: '1px solid #e5e7eb',
@@ -28,18 +28,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleCell: {
-    width: '50%', // Espacio restante centrado
+    width: '50%', // Título: 50% al centro con letras más pequeñas
     textAlign: 'center',
-    padding: 16, // p-4
-    borderRight: '1px solid #e5e7eb',
+    padding: 12, // p-3
     justifyContent: 'center',
+    borderRight: '1px solid #e5e7eb',
   },
   infoCell: {
-    width: '25%', // w-52 aproximado
+    width: '25%', // Información lateral: 25%
     textAlign: 'left',
     padding: 16, // p-4
     fontSize: 12, // text-xs
     alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 12, // text-xs
@@ -191,11 +192,11 @@ const NotaCreditoPDF = ({ nota }: { nota: NotaCredito }) => {
               />
             </View>
             <View style={styles.titleCell}>
-              <Text style={styles.title}>UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN</Text>
-              <Text style={styles.title}>DIRECCIÓN GENERAL DE ADMINISTRACIÓN</Text>
-              <Text style={styles.title}>SISTEMA DE GESTIÓN DE LA CALIDAD</Text>
-              <Text style={styles.subtitle}>SOLICITUD DE EMISIÓN NOTA DE CRÉDITO</Text>
-              <Text style={styles.subtitleSmall}>(Bienes, servicios, proyectos, protocolos y otros)</Text>
+              <Text style={styles.infoText}>UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN</Text>
+              <Text style={styles.infoText}>DIRECCIÓN GENERAL DE ADMINISTRACIÓN</Text>
+              <Text style={styles.infoText}>SISTEMA DE GESTIÓN DE LA CALIDAD</Text>
+              <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>SOLICITUD DE EMISIÓN NOTA DE CRÉDITO</Text></Text>
+              <Text style={styles.infoText}>(Bienes, servicios, proyectos, protocolos y otros)</Text>
             </View>
             <View style={styles.infoCell}>
               <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>Código:</Text> F-1-C-E-12</Text>
@@ -325,7 +326,16 @@ const NotaCreditoPDF = ({ nota }: { nota: NotaCredito }) => {
           </View>
           <View style={styles.signatureRight}>
             <Text style={styles.signatureTitle}>FIRMA Y SELLO DEL RESPONSABLE DE LA UNIDAD</Text>
-            <Text style={styles.signaturePlaceholder}>FIRMA</Text>
+            <Image
+              src="/firma.jpg"
+              style={{
+                width: 120,
+                height: 60,
+                objectFit: 'contain',
+                marginTop: 20,
+                alignSelf: 'center'
+              }}
+            />
           </View>
         </View>
 

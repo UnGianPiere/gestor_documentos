@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { NumerosALetras } from 'numero-a-letras';
@@ -14,8 +13,8 @@ const UPCHLogo = () => (
     <Image
       src="/logo.png"
       alt="UPCH Logo"
-      width={32}
-      height={32}
+      width={200}
+      height={200}
       className="object-contain"
       priority
     />
@@ -298,7 +297,7 @@ export default function NotaCreditoPage() {
 
   return (
     <div
-      className="py-10 text-xs force-light-theme"
+      className="py-4 md:py-10 px-2 md:px-4 text-xs force-light-theme"
       style={{
         backgroundImage: 'url(/fondo-form.jpg)',
         backgroundSize: 'cover',
@@ -310,7 +309,7 @@ export default function NotaCreditoPage() {
       <style dangerouslySetInnerHTML={{ __html: tableStyles }} />
 
       {/* Botón de volver */}
-      <div className="max-w-5xl mx-auto mb-6">
+      <div className="max-w-5xl mx-auto mb-4 md:mb-6">
         <Button
           type="button"
           variant="outline"
@@ -329,79 +328,86 @@ export default function NotaCreditoPage() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="max-w-5xl mx-auto bg-[var(--background)] backdrop-blur-sm rounded-lg shadow-sm p-8 border border-[var(--border-color)]">
+        <div className="max-w-5xl mx-auto bg-[var(--background)] backdrop-blur-sm rounded-lg shadow-sm p-4 md:p-8 border border-[var(--border-color)]">
 
           {/* HEADER */}
-          <table className="w-full">
-            <tbody>
-              <tr>
-                <td className="w-20 text-center font-bold p-4 header-cell">
-                  <UPCHLogo />
-                </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <tbody>
+                <tr>
+                  <td className="w-1/4 text-center font-bold p-2 md:p-4 header-cell">
+                    <UPCHLogo />
+                  </td>
 
-                <td className="text-center font-bold leading-tight p-4 header-cell">
-                  UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN<br />
-                  DIRECCIÓN GENERAL DE ADMINISTRACIÓN<br />
-                  SISTEMA DE GESTIÓN DE LA CALIDAD
-                  <div className="mt-2 font-bold">
-                    SOLICITUD DE EMISIÓN NOTA DE CRÉDITO
-                  </div>
-                  <div className="text-xs">
-                    (Bienes, servicios, proyectos, protocolos y otros)
-                  </div>
-                </td>
+                  <td className="w-1/2 text-center font-bold leading-tight p-2 md:p-4 header-cell">
+                    <div className="text-xs">
+                      UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN<br />
+                      DIRECCIÓN GENERAL DE ADMINISTRACIÓN<br />
+                      SISTEMA DE GESTIÓN DE LA CALIDAD
+                    </div>
+                    <div className="mt-1 md:mt-2 font-bold text-xs">
+                      SOLICITUD DE EMISIÓN NOTA DE CRÉDITO
+                    </div>
+                    <div className="text-xs">
+                      (Bienes, servicios, proyectos, protocolos y otros)
+                    </div>
+                  </td>
 
-                <td className="w-52 text-xs p-4 align-top header-cell">
-                  <div><b>Código:</b> F-1-C-E-12</div>
-                  <div><b>Versión:</b> 10 - 10/09/2018</div>
-                  <div><b>División:</b> Finanzas</div>
-                  <div><b>Página:</b> 1 de 1</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td className="w-1/4 text-xs p-2 md:p-4 align-top header-cell">
+                    <div><b>Código:</b> F-1-C-E-12</div>
+                    <div><b>Versión:</b> 10 - 10/09/2018</div>
+                    <div><b>División:</b> Finanzas</div>
+                    <div><b>Página:</b> 1 de 1</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           {/* TIPO COMPROBANTE */}
-          <table className="w-full mt-6">
-            <tbody>
-              <tr>
-                <td className="px-3 py-2 font-bold w-64 header-cell" style={{ background: '#d8d9d9' }}>
-                  MARCAR SEGÚN CORRESPONDA
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  FACTURA
-                  <input
-                    type="radio"
-                    name="tipo_comprobante"
-                    value="FACTURA"
-                    checked={formData.tipo_comprobante === 'FACTURA'}
-                    onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
-                    className="ml-2 accent-black"
-                  />
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  BOLETA DE VENTA
-                  <input
-                    type="radio"
-                    name="tipo_comprobante"
-                    value="BOLETA"
-                    checked={formData.tipo_comprobante === 'BOLETA'}
-                    onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
-                    className="ml-2 accent-black"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="overflow-x-auto mt-6">
+            <table className="w-full min-w-[500px]">
+              <tbody>
+                <tr>
+                  <td className="px-3 py-2 font-bold w-48 md:w-64 header-cell" style={{ background: '#d8d9d9' }}>
+                    MARCAR SEGÚN CORRESPONDA
+                  </td>
+                  <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                    FACTURA
+                    <input
+                      type="radio"
+                      name="tipo_comprobante"
+                      value="FACTURA"
+                      checked={formData.tipo_comprobante === 'FACTURA'}
+                      onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
+                      className="ml-2 accent-black"
+                    />
+                  </td>
+                  <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                    BOLETA DE VENTA
+                    <input
+                      type="radio"
+                      name="tipo_comprobante"
+                      value="BOLETA"
+                      checked={formData.tipo_comprobante === 'BOLETA'}
+                      onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
+                      className="ml-2 accent-black"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           {/* DATOS */}
-          <table className="w-full mt-4">
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full min-w-[600px]">
             <tbody>
               <tr>
-                <td className="px-3 py-2 font-bold w-64 header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold w-32 md:w-48 lg:w-64 header-cell" style={{ background: '#d8d9d9' }}>
                   {formData.tipo_comprobante === 'FACTURA' ? 'Razón Social' : 'Nombre Completo'}
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={formData.nombre_completo}
                     onChange={(e) => handleInputChange('nombre_completo', e.target.value)}
@@ -416,10 +422,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   {formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={formData.tipo_comprobante === 'FACTURA' ? formData.ruc : formData.dni}
                     onChange={(e) => handleInputChange(
@@ -434,10 +440,10 @@ export default function NotaCreditoPage() {
 
               {/* DATOS ESTÁTICOS */}
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Dependencia Solicitante
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={config?.dependencia_solicitante || ''}
                     readOnly
@@ -447,20 +453,20 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Persona de Contacto
                 </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={config?.persona_contacto || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
                 </td>
-                <td className="px-3 py-2 font-bold text-center header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold text-center header-cell" style={{ background: '#d8d9d9' }}>
                   Anexo
                 </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={config?.anexo || ''}
                     readOnly
@@ -470,10 +476,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Monto a Pagar
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     type="number"
                     step="0.01"
@@ -486,10 +492,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Monto en Letras
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <div className="w-full bg-transparent text-xs text-gray-700 font-medium min-h-[2.5rem] flex items-center">
                     {formData.monto_letras || 'Ingresa un monto para ver el equivalente en letras'}
                   </div>
@@ -497,10 +503,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   N° Documento de Origen
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={formData.numero_documento_origen}
                     onChange={(e) => handleInputChange('numero_documento_origen', e.target.value)}
@@ -511,10 +517,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold align-top header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold align-top header-cell" style={{ background: '#d8d9d9' }}>
                   Concepto de Nota de Crédito
                 </td>
-                <td colSpan={3} className="px-4 py-3 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-3 data-cell" style={{ background: '#f2f3f2' }}>
                   <textarea
                     value={formData.concepto_nota}
                     onChange={(e) => handleInputChange('concepto_nota', e.target.value)}
@@ -526,10 +532,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Fecha de Caducidad
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     type="date"
                     value={formData.fecha_caducidad}
@@ -540,10 +546,10 @@ export default function NotaCreditoPage() {
               </tr>
 
               <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Responsable de la Unidad
                 </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
                     value={formData.responsable_unidad}
                     onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
@@ -553,13 +559,15 @@ export default function NotaCreditoPage() {
                 </td>
               </tr>
             </tbody>
-          </table>
+            </table>
+          </div>
 
           {/* TRANSFERENCIA */}
-          <table className="w-full mt-6">
+          <div className="overflow-x-auto mt-6">
+            <table className="w-full min-w-[600px]">
             <tbody>
               <tr>
-                <td className="w-2/3 p-4 data-cell" style={{ background: '#f2f3f2' }}>
+                <td className="w-2/3 p-2 md:p-4 data-cell" style={{ background: '#f2f3f2' }}>
                   <div className="font-bold mb-2 header-cell">
                     APLICACIÓN DE LA NOTA DE CRÉDITO
                   </div>
@@ -567,17 +575,18 @@ export default function NotaCreditoPage() {
                   <div className="font-bold mb-2 header-cell">TRANSFERENCIA BANCARIA</div>
 
                   <div className="mb-2">
-                    <Select
-                      value={formData.banco_id || null}
-                      onChange={(value) => handleInputChange('banco_id', value || '')}
-                      options={[
-                        { value: '', label: 'Seleccione Banco' },
-                        ...bancos.map((banco) => ({
-                          value: banco._id,
-                          label: banco.nombre
-                        }))
-                      ]}
-                    />
+                    <select
+                      value={formData.banco_id || ''}
+                      onChange={(e) => handleInputChange('banco_id', e.target.value)}
+                      className="w-full bg-transparent border border-gray-200 text-[var(--text-primary)] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 px-2 py-2 text-xs"
+                    >
+                      <option value="">Seleccione Banco</option>
+                      {bancos.map((banco) => (
+                        <option key={banco._id} value={banco._id}>
+                          {banco.nombre}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <Input
@@ -595,19 +604,27 @@ export default function NotaCreditoPage() {
                   />
                 </td>
 
-                <td className="w-1/3 text-center p-3 header-cell" style={{ background: '#d8d9d9' }}>
+                <td className="w-1/3 text-center p-2 md:p-3 header-cell" style={{ background: '#d8d9d9' }}>
                   <div className="font-bold text-xs mb-2">
                     FIRMA Y SELLO DEL RESPONSABLE DE LA UNIDAD
                   </div>
                   <div className="h-24 flex items-center justify-center text-xs data-cell" style={{ background: '#feffff' }}>
-                    FIRMA
+                    <Image
+                      src="/firma.jpg"
+                      alt="Firma del Responsable"
+                      width={120}
+                      height={60}
+                      className="object-contain"
+                      priority
+                    />
                   </div>
                 </td>
               </tr>
             </tbody>
-          </table>
+            </table>
+          </div>
 
-          <div className="mt-6 text-right">
+          <div className="mt-4 md:mt-6 text-right">
             <Button
               type="submit"
               disabled={isSubmitting}

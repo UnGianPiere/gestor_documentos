@@ -107,7 +107,7 @@ export function Sidebar() {
                 "w-20 h-20 rounded-lg flex items-center justify-center overflow-hidden",
                 theme === 'dark'
                   ? "bg-transparent"
-                  : "bg-gray-900"
+                  : "bg-white"
               )}>
                 <img
                   src="/logo.png"
@@ -120,7 +120,7 @@ export function Sidebar() {
                 "inline-flex items-center justify-center transition-all duration-300 rounded-lg overflow-hidden",
                 theme === 'dark'
                   ? "bg-transparent"
-                  : "bg-gray-900"
+                  : "bg-white"
               )}>
                 <img
                   src="/logo.png"
