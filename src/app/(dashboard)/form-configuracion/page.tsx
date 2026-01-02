@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import toast from 'react-hot-toast';
@@ -16,6 +17,7 @@ interface ConfigData {
 }
 
 export default function FormConfiguracionPage() {
+  const router = useRouter();
   const [config, setConfig] = useState<ConfigData>({
     dependencia_solicitante: '',
     persona_contacto: '',
@@ -163,7 +165,7 @@ export default function FormConfiguracionPage() {
             <Button
               type="button"
               variant="secondary"
-              onClick={() => window.location.href = 'http://localhost:3000/nota-credito'}
+              onClick={() => router.push('/nota-credito')}
               className="px-6"
             >
               IR AL FORMULARIO

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { NumerosALetras } from 'numero-a-letras';
@@ -14,9 +13,9 @@ const UPCHLogo = () => (
     <Image
       src="/logo.png"
       alt="UPCH Logo"
-      width={32}
-      height={32}
-      className="object-contain"
+      width={200}
+      height={200}
+      className="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"
       priority
     />
   </div>
@@ -52,6 +51,49 @@ const tableStyles = `
   table {
     border-collapse: separate;
     border-spacing: 0 6px;
+  }
+
+  /* Responsive table adjustments */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.75rem;
+      border-spacing: 0 4px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Stack table cells vertically on mobile */
+    .responsive-table tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+
+    .responsive-table td {
+      display: block;
+      text-align: left !important;
+      padding: 0.25rem 0.5rem !important;
+      border: none !important;
+      background: transparent !important;
+    }
+
+    .responsive-table td:before {
+      content: attr(data-label) ": ";
+      font-weight: bold;
+      display: inline-block;
+      min-width: 120px;
+    }
+
+    .responsive-table .radio-group {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
   }
 
   /* Forzar tema claro específicamente para esta página usando constantes */
@@ -310,7 +352,7 @@ export default function NotaCreditoPage() {
 
   return (
     <div
-      className="py-10 text-xs force-light-theme"
+      className="py-4 sm:py-6 lg:py-10 text-xs sm:text-sm force-light-theme"
       style={{
         backgroundImage: 'url(/fondo-form.jpg)',
         backgroundSize: 'cover',
@@ -323,11 +365,12 @@ export default function NotaCreditoPage() {
 
       {/* Botón de volver - Solo cuando viene de form-configuracion */}
       {showBackButton && (
-        <div className="max-w-5xl mx-auto mb-6">
+        <div className="max-w-7xl mx-auto px-4 mb-4 sm:mb-6">
           <Button
             type="button"
             variant="outline"
             onClick={() => window.history.back()}
+            className="w-full sm:w-auto"
           >
             ← Volver
           </Button>
@@ -335,283 +378,542 @@ export default function NotaCreditoPage() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="max-w-5xl mx-auto bg-[var(--background)] backdrop-blur-sm rounded-lg shadow-sm p-8 border border-[var(--border-color)]">
+        <div className="max-w-7xl mx-auto bg-[var(--background)] backdrop-blur-sm rounded-lg shadow-sm p-4 sm:p-6 lg:p-8 border border-[var(--border-color)]">
 
           {/* HEADER */}
-          <table className="w-full">
-            <tbody>
-              <tr>
-                <td className="w-20 text-center font-bold p-4 header-cell">
-                  <UPCHLogo />
-                </td>
+          <div className="hidden md:block">
+            <table className="w-full">
+              <tbody>
+                <tr>
+                  <td className="w-32 lg:w-48 text-center font-bold p-4 header-cell">
+                    <UPCHLogo />
+                  </td>
 
-                <td className="text-center font-bold leading-tight p-4 header-cell">
-                  UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN<br />
-                  DIRECCIÓN GENERAL DE ADMINISTRACIÓN<br />
-                  SISTEMA DE GESTIÓN DE LA CALIDAD
-                  <div className="mt-2 font-bold">
-                    SOLICITUD DE EMISIÓN NOTA DE CRÉDITO
-                  </div>
-                  <div className="text-xs">
-                    (Bienes, servicios, proyectos, protocolos y otros)
-                  </div>
-                </td>
+                  <td className="text-center font-bold leading-tight p-4 header-cell">
+                    UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN<br />
+                    DIRECCIÓN GENERAL DE ADMINISTRACIÓN<br />
+                    SISTEMA DE GESTIÓN DE LA CALIDAD
+                    <div className="mt-2 font-bold">
+                      SOLICITUD DE EMISIÓN NOTA DE CRÉDITO
+                    </div>
+                    <div className="text-xs">
+                      (Bienes, servicios, proyectos, protocolos y otros)
+                    </div>
+                  </td>
 
-                <td className="w-52 text-xs p-4 align-top header-cell">
-                  <div><b>Código:</b> F-1-C-E-12</div>
-                  <div><b>Versión:</b> 10 - 10/09/2018</div>
-                  <div><b>División:</b> Finanzas</div>
-                  <div><b>Página:</b> 1 de 1</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td className="w-32 lg:w-52 text-xs p-4 align-top header-cell">
+                    <div><b>Código:</b> F-1-C-E-12</div>
+                    <div><b>Versión:</b> 10 - 10/09/2018</div>
+                    <div><b>División:</b> Finanzas</div>
+                    <div><b>Página:</b> 1 de 1</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Header responsive para móviles */}
+          <div className="md:hidden">
+            <div className="text-center">
+              <div className="mb-4">
+                <UPCHLogo />
+              </div>
+              <div className="font-bold leading-tight mb-2 header-cell">
+                UNIDAD DE GESTIÓN GOBIERNO Y ADMINISTRACIÓN
+                <br />
+                DIRECCIÓN GENERAL DE ADMINISTRACIÓN
+                <br />
+                SISTEMA DE GESTIÓN DE LA CALIDAD
+              </div>
+              <div className="font-bold text-sm mb-2 header-cell">
+                SOLICITUD DE EMISIÓN NOTA DE CRÉDITO
+              </div>
+              <div className="text-xs mb-4 header-cell">
+                (Bienes, servicios, proyectos, protocolos y otros)
+              </div>
+              <div className="text-xs border-t pt-2 header-cell">
+                <div><b>Código:</b> F-1-C-E-12</div>
+                <div><b>Versión:</b> 10 - 10/09/2018</div>
+                <div><b>División:</b> Finanzas</div>
+                <div><b>Página:</b> 1 de 1</div>
+              </div>
+            </div>
+          </div>
 
           {/* TIPO COMPROBANTE */}
-          <table className="w-full mt-6">
-            <tbody>
-              <tr>
-                <td className="px-3 py-2 font-bold w-64 header-cell" style={{ background: '#d8d9d9' }}>
-                  MARCAR SEGÚN CORRESPONDA
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  FACTURA
+          <div className="mt-6">
+            <div className="hidden md:block">
+              <table className="w-full">
+                <tbody>
+                  <tr>
+                    <td className="px-3 py-2 font-bold w-48 lg:w-64 header-cell" style={{ background: '#d8d9d9' }}>
+                      MARCAR SEGÚN CORRESPONDA
+                    </td>
+                    <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      FACTURA
+                      <input
+                        type="radio"
+                        name="tipo_comprobante"
+                        value="FACTURA"
+                        checked={formData.tipo_comprobante === 'FACTURA'}
+                        onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
+                        className="ml-2 accent-black"
+                      />
+                    </td>
+                    <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      BOLETA DE VENTA
+                      <input
+                        type="radio"
+                        name="tipo_comprobante"
+                        value="BOLETA"
+                        checked={formData.tipo_comprobante === 'BOLETA'}
+                        onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
+                        className="ml-2 accent-black"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Version mobile del tipo de comprobante */}
+            <div className="md:hidden">
+              <div className="px-3 py-2 font-bold header-cell rounded mb-2" style={{ background: '#d8d9d9', color: 'rgb(92, 92, 92)' }}>
+                MARCAR SEGÚN CORRESPONDA
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center px-4 py-2 data-cell rounded" style={{ background: '#f2f3f2' }}>
                   <input
                     type="radio"
                     name="tipo_comprobante"
                     value="FACTURA"
                     checked={formData.tipo_comprobante === 'FACTURA'}
                     onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
-                    className="ml-2 accent-black"
+                    className="mr-2 accent-black"
                   />
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  BOLETA DE VENTA
+                  FACTURA
+                </label>
+                <label className="flex items-center px-4 py-2 data-cell rounded" style={{ background: '#f2f3f2' }}>
                   <input
                     type="radio"
                     name="tipo_comprobante"
                     value="BOLETA"
                     checked={formData.tipo_comprobante === 'BOLETA'}
                     onChange={(e) => handleInputChange('tipo_comprobante', e.target.value)}
-                    className="ml-2 accent-black"
+                    className="mr-2 accent-black"
                   />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  BOLETA DE VENTA
+                </label>
+              </div>
+            </div>
+          </div>
 
           {/* DATOS */}
-          <table className="w-full mt-4">
-            <tbody>
-              <tr>
-                <td className="px-3 py-2 font-bold w-64 header-cell" style={{ background: '#d8d9d9' }}>
+          <div className="mt-4">
+            <div className="hidden md:block">
+              <table className="w-full">
+                <tbody>
+                  <tr>
+                    <td className="px-3 py-2 font-bold w-48 lg:w-64 header-cell" style={{ background: '#d8d9d9' }}>
+                      {formData.tipo_comprobante === 'FACTURA' ? 'Razón Social' : 'Nombre Completo'}
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={formData.nombre_completo}
+                        onChange={(e) => handleInputChange('nombre_completo', e.target.value)}
+                        className="w-full bg-transparent outline-none border-none input-text"
+                        placeholder={
+                          formData.tipo_comprobante === 'FACTURA'
+                            ? 'Ingresa la razón social'
+                            : 'Ingresa el nombre completo'
+                        }
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      {formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={formData.tipo_comprobante === 'FACTURA' ? formData.ruc : formData.dni}
+                        onChange={(e) => handleInputChange(
+                          formData.tipo_comprobante === 'FACTURA' ? 'ruc' : 'dni',
+                          e.target.value
+                        )}
+                        className="w-full bg-transparent outline-none border-none input-text"
+                        placeholder={`Ingresa ${formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}`}
+                      />
+                    </td>
+                  </tr>
+
+                  {/* DATOS ESTÁTICOS */}
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      Dependencia Solicitante
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={config?.dependencia_solicitante || ''}
+                        readOnly
+                        className="w-full bg-transparent outline-none border-none input-text"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      Persona de Contacto
+                    </td>
+                    <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={config?.persona_contacto || ''}
+                        readOnly
+                        className="w-full bg-transparent outline-none border-none input-text"
+                      />
+                    </td>
+                    <td className="px-3 py-2 font-bold text-center header-cell" style={{ background: '#d8d9d9' }}>
+                      Anexo
+                    </td>
+                    <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={config?.anexo || ''}
+                        readOnly
+                        className="w-full bg-transparent outline-none border-none input-text"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      Monto a Pagar
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={formData.monto_pagar}
+                        onChange={(e) => handleInputChange('monto_pagar', e.target.value)}
+                        className="w-full bg-transparent outline-none border-none input-text"
+                        placeholder="Ingresa el monto"
+                      />
+                      {formData.monto_letras && (
+                        <div className="mt-1 text-xs text-gray-700 font-medium">
+                          {formData.monto_letras}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      N° Documento de Origen
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={formData.numero_documento_origen}
+                        onChange={(e) => handleInputChange('numero_documento_origen', e.target.value)}
+                        className="w-full bg-transparent outline-none border-none input-text"
+                        placeholder="Ingresa el número de documento"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold align-top header-cell" style={{ background: '#d8d9d9' }}>
+                      Concepto de Nota de Crédito
+                    </td>
+                    <td colSpan={3} className="px-4 py-3 data-cell" style={{ background: '#f2f3f2' }}>
+                      <textarea
+                        value={formData.concepto_nota}
+                        onChange={(e) => handleInputChange('concepto_nota', e.target.value)}
+                        rows={3}
+                        className="w-full bg-transparent outline-none resize-none border-none input-text"
+                        placeholder="Describe el concepto de la nota de crédito"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      Fecha de Caducidad
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        type="date"
+                        value={formData.fecha_caducidad}
+                        onChange={(e) => handleInputChange('fecha_caducidad', e.target.value)}
+                        className="bg-transparent outline-none border-none input-text"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+                      Responsable de la Unidad
+                    </td>
+                    <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                      <Input
+                        value={formData.responsable_unidad}
+                        onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
+                        className="w-full bg-transparent outline-none border-none input-text"
+                        placeholder="Ingresa el nombre del responsable"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Version mobile de los datos */}
+            <div className="md:hidden space-y-4">
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   {formData.tipo_comprobante === 'FACTURA' ? 'Razón Social' : 'Nombre Completo'}
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    value={formData.nombre_completo}
-                    onChange={(e) => handleInputChange('nombre_completo', e.target.value)}
-                    className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder={
-                      formData.tipo_comprobante === 'FACTURA'
-                        ? 'Ingresa la razón social'
-                        : 'Ingresa el nombre completo'
-                    }
-                  />
-                </td>
-              </tr>
+                </div>
+                <Input
+                  value={formData.nombre_completo}
+                  onChange={(e) => handleInputChange('nombre_completo', e.target.value)}
+                  className="w-full bg-transparent outline-none border-none input-text"
+                  placeholder={
+                    formData.tipo_comprobante === 'FACTURA'
+                      ? 'Ingresa la razón social'
+                      : 'Ingresa el nombre completo'
+                  }
+                />
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   {formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    value={formData.tipo_comprobante === 'FACTURA' ? formData.ruc : formData.dni}
-                    onChange={(e) => handleInputChange(
-                      formData.tipo_comprobante === 'FACTURA' ? 'ruc' : 'dni',
-                      e.target.value
-                    )}
-                    className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder={`Ingresa ${formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}`}
-                  />
-                </td>
-              </tr>
+                </div>
+                <Input
+                  value={formData.tipo_comprobante === 'FACTURA' ? formData.ruc : formData.dni}
+                  onChange={(e) => handleInputChange(
+                    formData.tipo_comprobante === 'FACTURA' ? 'ruc' : 'dni',
+                    e.target.value
+                  )}
+                  className="w-full bg-transparent outline-none border-none input-text"
+                  placeholder={`Ingresa ${formData.tipo_comprobante === 'FACTURA' ? 'RUC' : 'DNI'}`}
+                />
+              </div>
 
-              {/* DATOS ESTÁTICOS */}
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   Dependencia Solicitante
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    value={config?.dependencia_solicitante || ''}
-                    readOnly
-                    className="w-full bg-transparent outline-none border-none input-text"
-                  />
-                </td>
-              </tr>
+                </div>
+                <Input
+                  value={config?.dependencia_solicitante || ''}
+                  readOnly
+                  className="w-full bg-transparent outline-none border-none input-text"
+                />
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
-                  Persona de Contacto
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                  <div className="font-bold mb-2 header-cell">
+                    Persona de Contacto
+                  </div>
                   <Input
                     value={config?.persona_contacto || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
-                </td>
-                <td className="px-3 py-2 font-bold text-center header-cell" style={{ background: '#d8d9d9' }}>
-                  Anexo
-                </td>
-                <td className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
+                </div>
+                <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                  <div className="font-bold mb-2 header-cell">
+                    Anexo
+                  </div>
                   <Input
                     value={config?.anexo || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
-                </td>
-              </tr>
+                </div>
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   Monto a Pagar
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    value={formData.monto_pagar}
-                    onChange={(e) => handleInputChange('monto_pagar', e.target.value)}
-                    className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder="Ingresa el monto"
-                  />
-                  {formData.monto_letras && (
-                    <div className="mt-1 text-xs text-gray-700 font-medium">
-                      {formData.monto_letras}
-                    </div>
-                  )}
-                </td>
-              </tr>
+                </div>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={formData.monto_pagar}
+                  onChange={(e) => handleInputChange('monto_pagar', e.target.value)}
+                  className="w-full bg-transparent outline-none border-none input-text"
+                  placeholder="Ingresa el monto"
+                />
+                {formData.monto_letras && (
+                  <div className="mt-1 text-xs text-gray-700 font-medium">
+                    {formData.monto_letras}
+                  </div>
+                )}
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   N° Documento de Origen
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    value={formData.numero_documento_origen}
-                    onChange={(e) => handleInputChange('numero_documento_origen', e.target.value)}
-                    className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder="Ingresa el número de documento"
-                  />
-                </td>
-              </tr>
+                </div>
+                <Input
+                  value={formData.numero_documento_origen}
+                  onChange={(e) => handleInputChange('numero_documento_origen', e.target.value)}
+                  className="w-full bg-transparent outline-none border-none input-text"
+                  placeholder="Ingresa el número de documento"
+                />
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold align-top header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   Concepto de Nota de Crédito
-                </td>
-                <td colSpan={3} className="px-4 py-3 data-cell" style={{ background: '#f2f3f2' }}>
-                  <textarea
-                    value={formData.concepto_nota}
-                    onChange={(e) => handleInputChange('concepto_nota', e.target.value)}
-                    rows={3}
-                    className="w-full bg-transparent outline-none resize-none border-none input-text"
-                    placeholder="Describe el concepto de la nota de crédito"
-                  />
-                </td>
-              </tr>
+                </div>
+                <textarea
+                  value={formData.concepto_nota}
+                  onChange={(e) => handleInputChange('concepto_nota', e.target.value)}
+                  rows={3}
+                  className="w-full bg-transparent outline-none resize-none border-none input-text"
+                  placeholder="Describe el concepto de la nota de crédito"
+                />
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   Fecha de Caducidad
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    type="date"
-                    value={formData.fecha_caducidad}
-                    onChange={(e) => handleInputChange('fecha_caducidad', e.target.value)}
-                    className="bg-transparent outline-none border-none input-text"
-                  />
-                </td>
-              </tr>
+                </div>
+                <Input
+                  type="date"
+                  value={formData.fecha_caducidad}
+                  onChange={(e) => handleInputChange('fecha_caducidad', e.target.value)}
+                  className="bg-transparent outline-none border-none input-text"
+                />
+              </div>
 
-              <tr>
-                <td className="px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
                   Responsable de la Unidad
-                </td>
-                <td colSpan={3} className="px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    value={formData.responsable_unidad}
-                    onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
-                    className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder="Ingresa el nombre del responsable"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <Input
+                  value={formData.responsable_unidad}
+                  onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
+                  className="w-full bg-transparent outline-none border-none input-text"
+                  placeholder="Ingresa el nombre del responsable"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* TRANSFERENCIA */}
-          <table className="w-full mt-6">
-            <tbody>
-              <tr>
-                <td className="w-2/3 p-4 data-cell" style={{ background: '#f2f3f2' }}>
-                  <div className="font-bold mb-2 header-cell">
-                    APLICACIÓN DE LA NOTA DE CRÉDITO
-                  </div>
+          <div className="mt-6">
+            <div className="hidden md:block">
+              <table className="w-full">
+                <tbody>
+                  <tr>
+                    <td className="w-2/3 p-4 data-cell" style={{ background: '#f2f3f2' }}>
+                      <div className="font-bold mb-2 header-cell">
+                        APLICACIÓN DE LA NOTA DE CRÉDITO
+                      </div>
 
-                  <div className="font-bold mb-2 header-cell">TRANSFERENCIA BANCARIA</div>
+                      <div className="font-bold mb-2 header-cell">TRANSFERENCIA BANCARIA</div>
 
-                  <div className="mb-2">
-                    <Select
-                      value={formData.banco_id || null}
-                      onChange={(value) => handleInputChange('banco_id', value || '')}
-                      options={[
-                        { value: '', label: 'Seleccione Banco' },
-                        ...bancos.map((banco) => ({
-                          value: banco._id,
-                          label: banco.nombre
-                        }))
-                      ]}
-                    />
-                  </div>
+                      <div className="mb-2">
+                        <select
+                          value={formData.banco_id || ''}
+                          onChange={(e) => handleInputChange('banco_id', e.target.value)}
+                          className="w-full bg-transparent outline-none border-none input-text"
+                        >
+                          <option value="">Seleccione Banco</option>
+                          {bancos.map((banco) => (
+                            <option key={banco._id} value={banco._id}>
+                              {banco.nombre}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-                  <Input
-                    value={formData.numero_cuenta}
-                    onChange={(e) => handleInputChange('numero_cuenta', e.target.value)}
-                    className="w-full mb-2 input-text"
-                    placeholder="Número de Cuenta"
-                  />
+                      <Input
+                        value={formData.numero_cuenta}
+                        onChange={(e) => handleInputChange('numero_cuenta', e.target.value)}
+                        className="w-full mb-2 input-text"
+                        placeholder="Número de Cuenta"
+                      />
 
-                  <Input
-                    value={formData.cci}
-                    onChange={(e) => handleInputChange('cci', e.target.value)}
-                    className="w-full input-text"
-                    placeholder="CCI"
-                  />
-                </td>
+                      <Input
+                        value={formData.cci}
+                        onChange={(e) => handleInputChange('cci', e.target.value)}
+                        className="w-full input-text"
+                        placeholder="CCI"
+                      />
+                    </td>
 
-                <td className="w-1/3 text-center p-3 header-cell" style={{ background: '#d8d9d9' }}>
-                  <div className="font-bold text-xs mb-2">
-                    FIRMA Y SELLO DEL RESPONSABLE DE LA UNIDAD
-                  </div>
-                  <div className="h-24 flex items-center justify-center text-xs data-cell" style={{ background: '#feffff' }}>
-                    FIRMA
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <td className="w-1/3 text-center p-3 header-cell" style={{ background: '#d8d9d9' }}>
+                      <div className="font-bold text-xs mb-2">
+                        FIRMA Y SELLO DEL RESPONSABLE DE LA UNIDAD
+                      </div>
+                      <div className="h-24 flex items-center justify-center text-xs data-cell" style={{ background: '#feffff' }}>
+                        FIRMA
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <div className="mt-6 text-right">
+            {/* Version mobile de transferencia */}
+            <div className="md:hidden space-y-4">
+              <div className="border rounded-lg p-4" style={{ background: '#f2f3f2' }}>
+                <div className="font-bold mb-2 header-cell">
+                  APLICACIÓN DE LA NOTA DE CRÉDITO
+                </div>
+
+                <div className="font-bold mb-2 header-cell">TRANSFERENCIA BANCARIA</div>
+
+                <div className="mb-2">
+                  <select
+                    value={formData.banco_id || ''}
+                    onChange={(e) => handleInputChange('banco_id', e.target.value)}
+                    className="w-full bg-transparent outline-none border-none input-text"
+                  >
+                    <option value="">Seleccione Banco</option>
+                    {bancos.map((banco) => (
+                      <option key={banco._id} value={banco._id}>
+                        {banco.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <Input
+                  value={formData.numero_cuenta}
+                  onChange={(e) => handleInputChange('numero_cuenta', e.target.value)}
+                  className="w-full mb-2 input-text"
+                  placeholder="Número de Cuenta"
+                />
+
+                <Input
+                  value={formData.cci}
+                  onChange={(e) => handleInputChange('cci', e.target.value)}
+                  className="w-full input-text"
+                  placeholder="CCI"
+                />
+              </div>
+
+              <div className="border rounded-lg p-4 text-center" style={{ background: '#d8d9d9' }}>
+                <div className="font-bold text-xs mb-2">
+                  FIRMA Y SELLO DEL RESPONSABLE DE LA UNIDAD
+                </div>
+                <div className="h-24 flex items-center justify-center text-xs border rounded" style={{ background: '#feffff' }}>
+                  FIRMA
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center sm:text-right">
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="px-6"
+              className="px-6 w-full sm:w-auto"
             >
               {isSubmitting ? 'ENVIANDO...' : 'ENVIAR SOLICITUD'}
             </Button>

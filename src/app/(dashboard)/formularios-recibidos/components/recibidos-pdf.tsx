@@ -20,38 +20,39 @@ const styles = StyleSheet.create({
     borderBottom: '1px solid #e5e7eb',
   },
   logoCell: {
-    width: '15%',
+    width: '25%', // w-32 aproximado
     textAlign: 'center',
-    padding: 12,
+    padding: 16, // p-4
     borderRight: '1px solid #e5e7eb',
     justifyContent: 'center',
     alignItems: 'center',
   },
   titleCell: {
-    width: '60%',
+    width: '50%', // Espacio restante centrado
     textAlign: 'center',
-    padding: 12,
+    padding: 16, // p-4
     borderRight: '1px solid #e5e7eb',
     justifyContent: 'center',
   },
   infoCell: {
-    width: '25%',
+    width: '25%', // w-52 aproximado
     textAlign: 'left',
-    padding: 12,
-    fontSize: 9,
+    padding: 16, // p-4
+    fontSize: 12, // text-xs
+    alignItems: 'flex-start',
   },
   title: {
-    fontSize: 9,
+    fontSize: 12, // text-xs
     fontWeight: 'bold',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 9,
+    fontSize: 12, // text-xs
     fontWeight: 'bold',
-    marginTop: 6,
+    marginTop: 8,
   },
   subtitleSmall: {
-    fontSize: 8,
+    fontSize: 12, // text-xs
     marginTop: 2,
   },
   table: {
