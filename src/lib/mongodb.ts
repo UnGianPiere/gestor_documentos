@@ -1,4 +1,9 @@
 import mongoose from 'mongoose';
+// Importar modelos para registrarlos
+import '../models/Banco';
+import '../models/FormConfiguracion';
+import '../models/NotaCredito';
+import '../models/User';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gestor_documentos_db';
 
