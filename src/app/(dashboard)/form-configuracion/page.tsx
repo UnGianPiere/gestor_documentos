@@ -10,6 +10,7 @@ interface ConfigData {
   _id?: string;
   dependencia_solicitante: string;
   persona_contacto: string;
+  responsable_unidad: string;
   anexo: string;
   activo: boolean;
   createdAt?: string;
@@ -21,6 +22,7 @@ export default function FormConfiguracionPage() {
   const [config, setConfig] = useState<ConfigData>({
     dependencia_solicitante: '',
     persona_contacto: '',
+    responsable_unidad: '',
     anexo: '',
     activo: true,
   });
@@ -35,6 +37,7 @@ export default function FormConfiguracionPage() {
   const loadConfig = async () => {
     try {
       const response = await fetch('/api/form-configuracion');
+
       if (response.ok) {
         const configData = await response.json();
         setConfig(configData);
@@ -43,6 +46,7 @@ export default function FormConfiguracionPage() {
         setConfig({
           dependencia_solicitante: '',
           persona_contacto: '',
+          responsable_unidad: '',
           anexo: '',
           activo: true,
         });
@@ -61,6 +65,19 @@ export default function FormConfiguracionPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+
+    // Validación de campos requeridos
+    const trimmedDependencia = config.dependencia_solicitante?.trim() || '';
+    const trimmedPersona = config.persona_contacto?.trim() || '';
+    const trimmedResponsable = config.responsable_unidad?.trim() || '';
+    const trimmedAnexo = config.anexo?.trim() || '';
+
+    if (!trimmedDependencia || !trimmedPersona || !trimmedResponsable || !trimmedAnexo) {
+      toast.error('Todos los campos son requeridos');
+      return;
+    }
+
     setIsSaving(true);
 
     try {
@@ -73,6 +90,7 @@ export default function FormConfiguracionPage() {
         body: JSON.stringify({
           dependencia_solicitante: config.dependencia_solicitante,
           persona_contacto: config.persona_contacto,
+          responsable_unidad: config.responsable_unidad,
           anexo: config.anexo,
         }),
       });
@@ -126,7 +144,7 @@ export default function FormConfiguracionPage() {
                 </label>
                 <Input
                   id="dependencia_solicitante"
-                  value={config.dependencia_solicitante}
+                  value={config.dependencia_solicitante || ''}
                   onChange={(e) => handleInputChange('dependencia_solicitante', e.target.value)}
                   placeholder="Ej: ESCUELA DE POSGRADO"
                   required
@@ -139,9 +157,22 @@ export default function FormConfiguracionPage() {
                 </label>
                 <Input
                   id="persona_contacto"
-                  value={config.persona_contacto}
+                  value={config.persona_contacto || ''}
                   onChange={(e) => handleInputChange('persona_contacto', e.target.value)}
                   placeholder="Ej: YVONNE MACHICADO ZUÑIGA"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="responsable_unidad" className="block text-sm font-medium text-[var(--text-on-content-bg)] mb-2">
+                  Responsable de la Unidad
+                </label>
+                <Input
+                  id="responsable_unidad"
+                  value={config.responsable_unidad || ''}
+                  onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
+                  placeholder="Ej: ING. MARIA GONZALEZ"
                   required
                 />
               </div>
@@ -152,7 +183,7 @@ export default function FormConfiguracionPage() {
                 </label>
                 <Input
                   id="anexo"
-                  value={config.anexo}
+                  value={config.anexo || ''}
                   onChange={(e) => handleInputChange('anexo', e.target.value)}
                   placeholder="Ej: 210204"
                   required
@@ -166,6 +197,17 @@ export default function FormConfiguracionPage() {
               type="button"
               variant="secondary"
               onClick={async () => {
+                // Validación de campos requeridos
+                const trimmedDependencia = config.dependencia_solicitante?.trim() || '';
+                const trimmedPersona = config.persona_contacto?.trim() || '';
+                const trimmedResponsable = config.responsable_unidad?.trim() || '';
+                const trimmedAnexo = config.anexo?.trim() || '';
+
+                if (!trimmedDependencia || !trimmedPersona || !trimmedResponsable || !trimmedAnexo) {
+                  toast.error('Todos los campos son requeridos');
+                  return;
+                }
+
                 // Guardar configuración automáticamente antes de ir al formulario
                 setIsSaving(true);
                 try {
@@ -178,6 +220,7 @@ export default function FormConfiguracionPage() {
                     body: JSON.stringify({
                       dependencia_solicitante: config.dependencia_solicitante,
                       persona_contacto: config.persona_contacto,
+                      responsable_unidad: config.responsable_unidad,
                       anexo: config.anexo,
                     }),
                   });
@@ -224,6 +267,7 @@ export default function FormConfiguracionPage() {
           <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
             <p><strong>Dependencia:</strong> {config.dependencia_solicitante || 'No configurado'}</p>
             <p><strong>Persona Contacto:</strong> {config.persona_contacto || 'No configurado'}</p>
+            <p><strong>Responsable Unidad:</strong> {config.responsable_unidad || 'No configurado'}</p>
             <p><strong>Anexo:</strong> {config.anexo || 'No configurado'}</p>
           </div>
           <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">

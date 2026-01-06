@@ -145,7 +145,6 @@ interface NotaCredito {
   monto_letras?: string;
   numero_documento_origen: string;
   concepto_nota: string;
-  fecha_caducidad: Date;
   responsable_unidad: string;
   banco_id?: {
     _id: string;
@@ -200,7 +199,7 @@ const NotaCreditoPDF = ({ nota }: { nota: NotaCredito }) => {
             </View>
             <View style={styles.infoCell}>
               <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>Código:</Text> F-1-C-E-12</Text>
-              <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>Versión:</Text> 10 - 10/09/2018</Text>
+              <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>Versión:</Text> 10 - {new Date(nota.createdAt).toLocaleDateString('es-ES')}</Text>
               <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>División:</Text> Finanzas</Text>
               <Text style={styles.infoText}><Text style={{ fontWeight: 'bold' }}>Página:</Text> 1 de 1</Text>
             </View>
@@ -293,15 +292,6 @@ const NotaCreditoPDF = ({ nota }: { nota: NotaCredito }) => {
             </View>
             <View style={[styles.tableDataCell, { width: '75%' }]}>
               <Text>{nota.concepto_nota}</Text>
-            </View>
-          </View>
-
-          <View style={styles.tableRow}>
-            <View style={[styles.tableHeaderCell, { width: '25%' }]}>
-              <Text>Fecha de Caducidad</Text>
-            </View>
-            <View style={[styles.tableDataCell, { width: '75%' }]}>
-              <Text>{formatDate(typeof nota.fecha_caducidad === 'string' ? new Date(nota.fecha_caducidad) : nota.fecha_caducidad)}</Text>
             </View>
           </View>
 

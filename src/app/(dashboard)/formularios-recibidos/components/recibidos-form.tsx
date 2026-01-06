@@ -19,7 +19,6 @@ interface NotaCredito {
   monto_letras?: string;
   numero_documento_origen: string;
   concepto_nota: string;
-  fecha_caducidad: Date;
   responsable_unidad: string;
   banco_id?: {
     _id: string;
@@ -41,6 +40,7 @@ interface Banco {
   nombre: string;
 }
 
+
 interface RecibidosFormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -60,7 +60,6 @@ export function RecibidosForm({ isOpen, onClose, nota }: RecibidosFormProps) {
     monto_letras: '',
     numero_documento_origen: '',
     concepto_nota: '',
-    fecha_caducidad: '',
     responsable_unidad: '',
     banco_id: '',
     numero_cuenta: '',
@@ -86,7 +85,6 @@ export function RecibidosForm({ isOpen, onClose, nota }: RecibidosFormProps) {
         monto_letras: nota.monto_letras || '',
         numero_documento_origen: nota.numero_documento_origen,
         concepto_nota: nota.concepto_nota,
-        fecha_caducidad: nota.fecha_caducidad ? new Date(nota.fecha_caducidad).toISOString().split('T')[0] : '',
         responsable_unidad: nota.responsable_unidad,
         banco_id: nota.banco_id?._id || '',
         numero_cuenta: nota.numero_cuenta || '',
@@ -159,7 +157,6 @@ export function RecibidosForm({ isOpen, onClose, nota }: RecibidosFormProps) {
 
     if (!formData.numero_documento_origen.trim()) return 'El número de documento de origen es requerido';
     if (!formData.concepto_nota.trim()) return 'El concepto de la nota es requerido';
-    if (!formData.fecha_caducidad) return 'La fecha de caducidad es requerida';
     if (!formData.responsable_unidad.trim()) return 'El responsable de la unidad es requerido';
 
     return null;
@@ -188,7 +185,6 @@ export function RecibidosForm({ isOpen, onClose, nota }: RecibidosFormProps) {
         monto_letras: formData.monto_letras,
         numero_documento_origen: formData.numero_documento_origen.trim(),
         concepto_nota: formData.concepto_nota.trim(),
-        fecha_caducidad: formData.fecha_caducidad,
         responsable_unidad: formData.responsable_unidad.trim(),
         banco_id: formData.banco_id || undefined,
         numero_cuenta: formData.numero_cuenta.trim() || undefined,
@@ -339,19 +335,6 @@ export function RecibidosForm({ isOpen, onClose, nota }: RecibidosFormProps) {
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent"
             placeholder="Describe el concepto de la nota de crédito"
-          />
-        </div>
-
-        {/* FECHA CADUCIDAD */}
-        <div>
-          <label className="block text-sm font-medium text-[var(--text-on-content-bg)] mb-1">
-            Fecha de Caducidad *
-          </label>
-          <Input
-            type="date"
-            value={formData.fecha_caducidad}
-            onChange={(e) => handleInputChange('fecha_caducidad', e.target.value)}
-            className="w-full"
           />
         </div>
 

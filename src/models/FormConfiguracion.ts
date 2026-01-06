@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IFormConfiguracion extends Document {
   dependencia_solicitante: string;
   persona_contacto: string;
+  responsable_unidad: string;
   anexo: string;
   activo: boolean;
   createdAt: Date;
@@ -16,6 +17,11 @@ const FormConfiguracionSchema: Schema = new Schema({
     trim: true,
   },
   persona_contacto: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  responsable_unidad: {
     type: String,
     required: true,
     trim: true,

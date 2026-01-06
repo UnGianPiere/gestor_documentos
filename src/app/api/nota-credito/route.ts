@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
       monto_letras,
       numero_documento_origen,
       concepto_nota,
-      fecha_caducidad,
-      responsable_unidad,
       banco_id,
       numero_cuenta,
       cci
@@ -26,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     // Validaciones básicas
     if (!tipo_comprobante || !nombre_completo || !monto_pagar || !monto_letras || !numero_documento_origen ||
-        !concepto_nota || !fecha_caducidad || !responsable_unidad) {
+        !concepto_nota) {
       return NextResponse.json(
         { error: 'Campos requeridos faltantes' },
         { status: 400 }
@@ -86,8 +84,7 @@ export async function POST(request: NextRequest) {
       monto_letras: monto_letras?.trim(),
       numero_documento_origen: numero_documento_origen.trim(),
       concepto_nota: concepto_nota.trim(),
-      fecha_caducidad: new Date(fecha_caducidad),
-      responsable_unidad: responsable_unidad.trim(),
+      responsable_unidad: config.responsable_unidad,
       banco_id: banco_id ? banco_id : undefined,
       numero_cuenta: numero_cuenta?.trim(),
       cci: cci?.trim(),

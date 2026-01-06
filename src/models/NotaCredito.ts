@@ -10,7 +10,6 @@ export interface INotaCredito extends Document {
   monto_letras: string;
   numero_documento_origen: string;
   concepto_nota: string;
-  fecha_caducidad: Date;
   documentos_adjuntos?: string;
   responsable_unidad: string;
 
@@ -68,10 +67,6 @@ const NotaCreditoSchema: Schema = new Schema({
     type: String,
     required: true,
     trim: true,
-  },
-  fecha_caducidad: {
-    type: Date,
-    required: true,
   },
   documentos_adjuntos: {
     type: String,

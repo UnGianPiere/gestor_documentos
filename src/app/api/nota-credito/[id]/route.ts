@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import NotaCredito from '@/models/NotaCredito';
+import FormConfiguracion from '@/models/FormConfiguracion';
 
 // PUT - Actualizar nota de crédito por ID
 export async function PUT(
@@ -20,8 +21,6 @@ export async function PUT(
       monto_letras,
       numero_documento_origen,
       concepto_nota,
-      fecha_caducidad,
-      responsable_unidad,
       banco_id,
       numero_cuenta,
       cci
@@ -29,7 +28,7 @@ export async function PUT(
 
     // Validaciones básicas
     if (!tipo || !nombre_completo || !monto_pagar || !numero_documento_origen ||
-        !concepto_nota || !fecha_caducidad || !responsable_unidad) {
+        !concepto_nota) {
       return NextResponse.json(
         { error: 'Campos requeridos faltantes' },
         { status: 400 }
@@ -70,6 +69,15 @@ export async function PUT(
 
     await connectToDatabase();
 
+    // Obtener configuración activa para responsable_unidad
+    const config = await FormConfiguracion.findOne({ activo: true });
+    if (!config) {
+      return NextResponse.json(
+        { error: 'Configuración del formulario no encontrada' },
+        { status: 500 }
+      );
+    }
+
     // Actualizar la nota de crédito
     const notaActualizada = await NotaCredito.findByIdAndUpdate(
       id,
@@ -82,8 +90,7 @@ export async function PUT(
         monto_letras: monto_letras?.trim(),
         numero_documento_origen: numero_documento_origen.trim(),
         concepto_nota: concepto_nota.trim(),
-        fecha_caducidad: new Date(fecha_caducidad),
-        responsable_unidad: responsable_unidad.trim(),
+        responsable_unidad: config.responsable_unidad,
         banco_id: banco_id || undefined,
         numero_cuenta: numero_cuenta?.trim(),
         cci: cci?.trim(),

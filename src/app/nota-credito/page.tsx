@@ -101,8 +101,6 @@ interface FormData {
   monto_pagar: string;
   numero_documento_origen: string;
   concepto_nota: string;
-  fecha_caducidad: string;
-  responsable_unidad: string;
   banco_id: string;
   numero_cuenta: string;
   cci: string;
@@ -112,6 +110,7 @@ interface FormData {
 interface ConfigData {
   dependencia_solicitante: string;
   persona_contacto: string;
+  responsable_unidad: string;
   anexo: string;
 }
 
@@ -130,14 +129,17 @@ export default function NotaCreditoPage() {
     monto_letras: '',
     numero_documento_origen: '',
     concepto_nota: '',
-    fecha_caducidad: '',
-    responsable_unidad: '',
     banco_id: '',
     numero_cuenta: '',
     cci: '',
   });
 
-  const [config, setConfig] = useState<ConfigData | null>(null);
+  const [config, setConfig] = useState<ConfigData>({
+    dependencia_solicitante: '',
+    persona_contacto: '',
+    responsable_unidad: '',
+    anexo: '',
+  });
   const [bancos, setBancos] = useState<Banco[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -226,8 +228,6 @@ export default function NotaCreditoPage() {
 
     if (!formData.numero_documento_origen.trim()) return 'El número de documento de origen es requerido';
     if (!formData.concepto_nota.trim()) return 'El concepto de la nota es requerido';
-    if (!formData.fecha_caducidad) return 'La fecha de caducidad es requerida';
-    if (!formData.responsable_unidad.trim()) return 'El responsable de la unidad es requerido';
 
     return null;
   };
@@ -270,8 +270,6 @@ export default function NotaCreditoPage() {
         monto_letras: '',
         numero_documento_origen: '',
         concepto_nota: '',
-        fecha_caducidad: '',
-        responsable_unidad: '',
         banco_id: '',
         numero_cuenta: '',
         cci: '',
@@ -355,7 +353,7 @@ export default function NotaCreditoPage() {
 
                   <td className="w-1/4 text-xs p-2 md:p-4 align-top header-cell">
                     <div><b>Código:</b> F-1-C-E-12</div>
-                    <div><b>Versión:</b> 10 - 10/09/2018</div>
+                    <div><b>Versión:</b> 10 - {new Date().toLocaleDateString('es-ES')}</div>
                     <div><b>División:</b> Finanzas</div>
                     <div><b>Página:</b> 1 de 1</div>
                   </td>
@@ -445,7 +443,7 @@ export default function NotaCreditoPage() {
                 </td>
                 <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
-                    value={config?.dependencia_solicitante || ''}
+                    value={config.dependencia_solicitante || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
@@ -458,7 +456,7 @@ export default function NotaCreditoPage() {
                 </td>
                 <td className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
-                    value={config?.persona_contacto || ''}
+                    value={config.persona_contacto || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
@@ -468,7 +466,7 @@ export default function NotaCreditoPage() {
                 </td>
                 <td className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
-                    value={config?.anexo || ''}
+                    value={config.anexo || ''}
                     readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
                   />
@@ -533,28 +531,13 @@ export default function NotaCreditoPage() {
 
               <tr>
                 <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
-                  Fecha de Caducidad
-                </td>
-                <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
-                  <Input
-                    type="date"
-                    value={formData.fecha_caducidad}
-                    onChange={(e) => handleInputChange('fecha_caducidad', e.target.value)}
-                    className="bg-transparent outline-none border-none input-text"
-                  />
-                </td>
-              </tr>
-
-              <tr>
-                <td className="px-2 md:px-3 py-2 font-bold header-cell" style={{ background: '#d8d9d9' }}>
                   Responsable de la Unidad
                 </td>
                 <td colSpan={3} className="px-2 md:px-4 py-2 data-cell" style={{ background: '#f2f3f2' }}>
                   <Input
-                    value={formData.responsable_unidad}
-                    onChange={(e) => handleInputChange('responsable_unidad', e.target.value)}
+                    value={config.responsable_unidad || ''}
+                    readOnly
                     className="w-full bg-transparent outline-none border-none input-text"
-                    placeholder="Ingresa el nombre del responsable"
                   />
                 </td>
               </tr>

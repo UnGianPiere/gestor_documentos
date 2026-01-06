@@ -29,9 +29,9 @@ export async function GET() {
 // POST - Crear nueva configuración
 export async function POST(request: NextRequest) {
   try {
-    const { dependencia_solicitante, persona_contacto, anexo } = await request.json();
+    const { dependencia_solicitante, persona_contacto, responsable_unidad, anexo } = await request.json();
 
-    if (!dependencia_solicitante || !persona_contacto || !anexo) {
+    if (!dependencia_solicitante || !persona_contacto || !responsable_unidad || !anexo) {
       return NextResponse.json(
         { error: 'Todos los campos son requeridos' },
         { status: 400 }
@@ -41,15 +41,18 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
 
     const config = new FormConfiguracion({
-      dependencia_solicitante: dependencia_solicitante.trim(),
-      persona_contacto: persona_contacto.trim(),
-      anexo: anexo.trim(),
+      dependencia_solicitante: dependencia_solicitante?.trim() || '',
+      persona_contacto: persona_contacto?.trim() || '',
+      responsable_unidad: responsable_unidad?.trim() || '',
+      anexo: anexo?.trim() || '',
       activo: true,
     });
 
-    await config.save();
+    console.log('Guardando configuración...', config);
+    const savedConfig = await config.save();
+    console.log('Configuración guardada:', savedConfig);
 
-    return NextResponse.json(config, { status: 201 });
+    return NextResponse.json(savedConfig, { status: 201 });
   } catch (error) {
     console.error('Error creando configuración:', error);
     return NextResponse.json(
@@ -62,9 +65,9 @@ export async function POST(request: NextRequest) {
 // PUT - Actualizar configuración activa
 export async function PUT(request: NextRequest) {
   try {
-    const { dependencia_solicitante, persona_contacto, anexo } = await request.json();
+    const { dependencia_solicitante, persona_contacto, responsable_unidad, anexo } = await request.json();
 
-    if (!dependencia_solicitante || !persona_contacto || !anexo) {
+    if (!dependencia_solicitante || !persona_contacto || !responsable_unidad || !anexo) {
       return NextResponse.json(
         { error: 'Todos los campos son requeridos' },
         { status: 400 }
@@ -73,17 +76,51 @@ export async function PUT(request: NextRequest) {
 
     await connectToDatabase();
 
-    const config = await FormConfiguracion.findOneAndUpdate(
-      { activo: true },
-      {
-        dependencia_solicitante: dependencia_solicitante.trim(),
-        persona_contacto: persona_contacto.trim(),
-        anexo: anexo.trim(),
-      },
-      { new: true, upsert: true }
-    );
+    // Buscar configuración existente
+    let existingConfig = await FormConfiguracion.findOne({ activo: true });
 
-    return NextResponse.json(config);
+    if (existingConfig) {
+      // Eliminar documento existente y crear uno nuevo para asegurar que tenga todos los campos
+      await FormConfiguracion.deleteOne({ _id: existingConfig._id });
+
+      const newConfigData = {
+        dependencia_solicitante: dependencia_solicitante?.trim() || '',
+        persona_contacto: persona_contacto?.trim() || '',
+        responsable_unidad: responsable_unidad?.trim() || '',
+        anexo: anexo?.trim() || '',
+        activo: true,
+      };
+
+      const config = new FormConfiguracion(newConfigData);
+
+      // Forzar que se incluya responsable_unidad
+      config.responsable_unidad = newConfigData.responsable_unidad;
+      config.markModified('responsable_unidad');
+
+      const savedConfig = await config.save();
+
+      // Forzar que se incluya responsable_unidad en la respuesta
+      const responseData = savedConfig.toObject();
+
+      // Si no tiene responsable_unidad, agregarlo manualmente
+      if (!('responsable_unidad' in responseData)) {
+        responseData.responsable_unidad = newConfigData.responsable_unidad;
+      }
+
+      return NextResponse.json(responseData);
+    } else {
+      // Crear nueva configuración
+      const config = new FormConfiguracion({
+        dependencia_solicitante: dependencia_solicitante?.trim() || '',
+        persona_contacto: persona_contacto?.trim() || '',
+        responsable_unidad: responsable_unidad?.trim() || '',
+        anexo: anexo?.trim() || '',
+        activo: true,
+      });
+
+      const savedConfig = await config.save();
+      return NextResponse.json(savedConfig);
+    }
   } catch (error) {
     console.error('Error actualizando configuración:', error);
     return NextResponse.json(
